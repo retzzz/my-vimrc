@@ -40,7 +40,8 @@ set undodir=$HOME/.vimtmp
 "set undodir=$VIMRUNTIME/../tmp
 
 "leader key = ',' but not '\'
-let mapleader = ","
+let mapleader=","
+let maplocalleader=","
 
 set ignorecase
 set smartcase
@@ -140,6 +141,7 @@ if has("gui_running")
        set gfw=YouYuan:h11
        "set gfw=WenQuanYi_Zen_Hei_Mono_Medium:h14
    else
+       set guifont=DejaVu\ Sans\ Mono\ 12
        set fileencoding=utf-8
    endif
 endif
@@ -229,15 +231,15 @@ let g:indent_guides_guide_size = 1
 nmap <silent> <Leader>ch :FSHere<cr>
 
 "YouCompleteMe
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
+"nnoremap <leader>jd :YcmCompleter GoTo<CR>
 "nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
-let g:ycm_global_ycm_extra_conf = 'c:\Users\e323819\.ycm_extra_conf.py'
+"let g:ycm_global_ycm_extra_conf = 'c:\Users\e323819\.ycm_extra_conf.py'
 "Do not ask when starting vim
-let g:ycm_confirm_extra_conf = 0
+"let g:ycm_confirm_extra_conf = 0
 "let g:syntastic_always_populate_loc_list = 1
 
 let g:neocomplcache_enable_at_startup = 1
 
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
+"if executable('ag')
+  "let g:ackprg = 'ag --vimgrep'
+"endif
