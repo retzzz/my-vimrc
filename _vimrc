@@ -141,7 +141,9 @@ if has("gui_running")
        set gfw=YouYuan:h11
        "set gfw=WenQuanYi_Zen_Hei_Mono_Medium:h14
    else
-       set guifont=DejaVu\ Sans\ Mono\ 12
+       "set guifont=DejaVu\ Sans\ Mono\ 12
+       set guifont=monaco\ 12
+       set gfw=YouYuan\ 14
        set fileencoding=utf-8
    endif
 endif
