@@ -59,14 +59,14 @@ vnoremap <tab> %
 "about wrap
 set wrap
 set linebreak
-set showbreak=¬
-set textwidth=79
-set formatoptions=qrn1
+set showbreak=∑\
+set textwidth=120
+set formatoptions=qrn1j
 set colorcolumn=80
 
 "invisible characters
-nmap <leader>ll :set list!<CR>
-set listchars=tab:»\ ,eol:¶
+nmap <leader>li :set list!<CR>
+set listchars=tab:»-,eol:∫,extends:≥,precedes:≤,trail:.
 "highlight NonText guifg=#4a4a59
 "highlight SpecialKey guifg=#4a4a59
 
@@ -245,3 +245,6 @@ let g:neocomplcache_enable_at_startup = 1
 "if executable('ag')
   "let g:ackprg = 'ag --vimgrep'
 "endif
+"
+nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
+nnoremap <leader>ll :call ToggleLocationList()<CR>
