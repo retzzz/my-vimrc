@@ -59,7 +59,7 @@ vnoremap <tab> %
 "about wrap
 set wrap
 set linebreak
-set showbreak=∑\
+set showbreak=∑
 set textwidth=120
 set formatoptions=qrn1j
 set colorcolumn=80
@@ -142,10 +142,12 @@ if has("gui_running")
        "set gfw=WenQuanYi_Zen_Hei_Mono_Medium:h14
    else
        "set guifont=DejaVu\ Sans\ Mono\ 12
-       set guifont=monaco\ 12
-       set gfw=YouYuan\ 14
+       set guifont=monaco\ 16
+       set gfw=YouYuan\ 18
        set fileencoding=utf-8
    endif
+else
+   let g:favorite_color_schemes = [ 'evening', 'industry', 'torte', 'base16-ateliercave' ]
 endif
 
 " copy file/short path/long path/ to clipboard
@@ -214,6 +216,8 @@ map <F3> :NERDTreeToggle<CR>
 imap <F3> <ESC>:NERDTreeToggle<CR>
 
 nnoremap <silent> <F4> :cw<CR>
+map <F7> :setlocal spell! spelllang=en_us spell?<CR>
+imap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 "map <F5> :ls<CR>:e #
 
 " F8 Tlist Toggle
