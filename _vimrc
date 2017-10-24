@@ -23,6 +23,7 @@ set visualbell
 set cursorline
 set ruler
 set backspace=indent,eol,start
+set number
 set relativenumber
 set dir=$HOME/.vimtmp
 set diffopt+=vertical
