@@ -73,7 +73,7 @@ set listchars=tab:»-,eol:∫,extends:≥,precedes:≤,trail:.
 
 "shotcut
 "trim trailing spaces
-nnoremap <leader>ds :%s/\s\+$//<cr>:let @/=''<CR>
+nnoremap <leader>rs :%s/\s\+$//<cr>:let @/=''<CR>
 "split window
 nnoremap <leader>ww <C-w>v<C-w>l
 "move in windows
