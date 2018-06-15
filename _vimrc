@@ -29,6 +29,7 @@ set dir=$HOME/.vimtmp
 set diffopt+=vertical
 set clipboard+=unnamed
 syntax on
+set title titlestring=%-0.40F%=buffer=%n\ %m\ %Y\ %q\ \ \ line=%l\ of\ %L
 
 "Completion mode setting
 set wildmenu
@@ -253,3 +254,6 @@ let g:neocomplcache_enable_at_startup = 1
 "
 nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap <leader>ll :call ToggleLocationList()<CR>
+
+au BufNewFile,BufRead *.tsf set filetype=vb
+au BufNewFile,BufRead makefile.g set filetype=make
