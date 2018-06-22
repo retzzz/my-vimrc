@@ -29,7 +29,7 @@ set dir=$HOME/.vimtmp
 set diffopt+=vertical
 set clipboard+=unnamed
 syntax on
-set title titlestring=%-0.40F%=buffer=%n\ %m\ %Y\ %q\ \ \ line=%l\ of\ %L
+set title titlestring=%-0.110F%m%=\ \ buffer=%n\ %Y\ %q\ \ \ line=%l\ of\ %L titlelen=120
 
 "Completion mode setting
 set wildmenu
@@ -130,9 +130,8 @@ if has("gui_running")
    "    :set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
    if has("gui_win32")
        "set fileencoding=chinese
-       "set guifont=DejaVu_Sans_Mono:h12
-       set guifont=monaco:h9:b
-       "set guifont=DejaVu_Sans_Mono:h12
+       "set guifont=monaco:h9:b
+       set guifont=DejaVu_Sans_Mono:h12
        "set guifont=consolas:h12
        "set guifont=Consolas:h12
        "set guifont=Courier_New:h12:b
@@ -140,7 +139,7 @@ if has("gui_running")
        "set gfw=YaHei:h15
        "set gfw=KaiTi:h18
        "set gfw=FangSong:h14
-       set gfw=YouYuan:h11
+       set gfw=YouYuan:h13
        "set gfw=WenQuanYi_Zen_Hei_Mono_Medium:h14
    else
        "set guifont=DejaVu\ Sans\ Mono\ 12
@@ -257,3 +256,35 @@ nnoremap <leader>ll :call ToggleLocationList()<CR>
 
 au BufNewFile,BufRead *.tsf set filetype=vb
 au BufNewFile,BufRead makefile.g set filetype=make
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor\ --column
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+  "let g:ctrlp_user_command = 'ag %s -l -g ""'
+endif
+
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" Alignment rule for C/C++
+if !exists('g:easy_align_delimiters')
+  let g:easy_align_delimiters = {}
+endif
+let g:easy_align_delimiters['d'] = {
+\ 'pattern': ' \ze\S\+\s*[;=]',
+\ 'left_margin': 0, 'right_margin': 0
+\ }
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
