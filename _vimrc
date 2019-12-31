@@ -114,15 +114,19 @@ if has("gui_running")
    "colorscheme solarized
    "random color
    let g:favorite_color_schemes = ['lettuce',
+                       \ 'github',
                        \ 'colorer',
-                       \ 'dracula',
                        \ 'solarized',
                        \ 'distinguished',
                        \ 'jellybeans',
                        \ 'vividchalk',
                        \ 'koehler',
                        \ 'base16-railscasts',
-                       \ 'desert']
+                       \ 'desert',
+                       \ 'desertEx',
+                       \ '0x7A69_dark',
+                       \ 'xoria256',
+   ]
    "if has("gui_gtk2")
    "    :set guifont=Luxi\ Mono\ 12
    "elseif has("x11")
@@ -131,7 +135,7 @@ if has("gui_running")
    if has("gui_win32")
        "set fileencoding=chinese
        "set guifont=monaco:h9:b
-       set guifont=DejaVu_Sans_Mono:h12
+       "set guifont=DejaVu_Sans_Mono:h14
        "set guifont=consolas:h12
        "set guifont=Consolas:h12
        "set guifont=Courier_New:h12:b
@@ -139,13 +143,15 @@ if has("gui_running")
        "set gfw=YaHei:h15
        "set gfw=KaiTi:h18
        "set gfw=FangSong:h14
-       set gfw=YouYuan:h13
+       set gfw=YouYuan:h15
        "set gfw=WenQuanYi_Zen_Hei_Mono_Medium:h14
+       let g:favorite_gui_fonts = ['Monaco:h14', 'DejaVu_Sans_Mono:h14']
    else
        "set guifont=DejaVu\ Sans\ Mono\ 12
-       set guifont=monaco\ 16
+       "set guifont=monaco\ 16
        set gfw=YouYuan\ 18
        set fileencoding=utf-8
+       let g:favorite_gui_fonts = ['Monaco\ h14', 'DejaVu\ Sans\ Mono\ h14']
    endif
 else
    let g:favorite_color_schemes = [ 'evening', 'industry', 'torte', 'base16-ateliercave' ]
@@ -247,26 +253,21 @@ nmap <silent> <Leader>ch :FSHere<cr>
 
 let g:neocomplcache_enable_at_startup = 1
 
-"if executable('ag')
-  "let g:ackprg = 'ag --vimgrep'
-"endif
-"
+" The Silver Searcher
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep --smart-case'
+    cnoreabbrev ag Ack
+    cnoreabbrev aG Ack
+    cnoreabbrev Ag Ack
+    cnoreabbrev AG Ack
+endif
+
 nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap <leader>ll :call ToggleLocationList()<CR>
 
 au BufNewFile,BufRead *.tsf set filetype=vb
+au BufNewFile,BufRead *.tpr set filetype=xml
 au BufNewFile,BufRead makefile.g set filetype=make
-
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor\ --column
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-  "let g:ctrlp_user_command = 'ag %s -l -g ""'
-endif
-
 
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -288,3 +289,11 @@ noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
+"if exists("loaded_matchit")
+    "let b:match_ignorecase = 1 " (pascal is case-insensitive)
+
+    "let b:match_words = '\<\%(begin\|case\|record\|object\|try\)\>'
+    "let b:match_words .= ':\<^\s*\%(except\|finally\)\>:\<end\>'
+    "let b:match_words .= ',\<repeat\>:\<until\>'
+    "let b:match_words .= ',\<if\>:\<else\>'
+"endif
