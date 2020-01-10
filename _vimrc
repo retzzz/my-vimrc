@@ -125,8 +125,7 @@ if has("gui_running")
                        \ 'desert',
                        \ 'desertEx',
                        \ '0x7A69_dark',
-                       \ 'xoria256',
-   ]
+                       \ 'xoria256']
    "if has("gui_gtk2")
    "    :set guifont=Luxi\ Mono\ 12
    "elseif has("x11")
@@ -149,9 +148,9 @@ if has("gui_running")
    else
        "set guifont=DejaVu\ Sans\ Mono\ 12
        "set guifont=monaco\ 16
-       set gfw=YouYuan\ 18
+       set gfw=YouYuan\ 16
+       let g:favorite_gui_fonts = ['DejaVu\ Sans\ Mono\ 14', 'Monaco\ 14']
        set fileencoding=utf-8
-       let g:favorite_gui_fonts = ['Monaco\ h14', 'DejaVu\ Sans\ Mono\ h14']
    endif
 else
    let g:favorite_color_schemes = [ 'evening', 'industry', 'torte', 'base16-ateliercave' ]
@@ -237,8 +236,9 @@ imap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 nmap <F8> :TagbarToggle<CR>
 
 "indent guide options
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
+"let g:indent_guides_start_level = 2
+"let g:indent_guides_guide_size = 1
+nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
 
 "fswitch mapping
 nmap <silent> <Leader>ch :FSHere<cr>
