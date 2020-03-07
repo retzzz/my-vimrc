@@ -1,12 +1,75 @@
-"plugin pathogen
-"After adding this, you can take any plugin, unzip/untar/svn-checkout/git-clone
-"it to its own private directory in .vim/bundle, and it will be added to the
-"runtime path.  This makes it easy to remove or update each plugin individually.
-"filetype off
-"call pathogen#runtime_append_all_bundles()
-"pathogen won't be used on VIM 8.0
+call plug#begin('~/AppData/Local/nvim/plugged')
+Plug 'scrooloose/nerdTree'
+Plug 'FuDesign2008/randomTheme.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'tpope/vim-surround'
+"Plug 'ctrlpvim/ctrlp.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'Yggdroot/LeaderF'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'dense-analysis/ale'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'skywind3000/asyncrun.vim'
+"Plug 'brookhong/cscope.vim'
+Plug 'preservim/nerdcommenter'
+Plug 'junegunn/vim-easy-align'
+Plug 'dimasg/vim-mark'
+Plug 'andymass/vim-matchup'
+Plug 'kshenoy/vim-signature'
+Plug 'terryma/vim-expand-region'
+Plug 'jeetsukumaran/vim-indentwise'
+Plug 'pseewald/vim-anyfold'
+Plug 'will133/vim-dirdiff'
 
-filetype plugin indent on
+if has('nvim') || has('patch-8.0.902')
+  Plug 'mhinz/vim-signify'
+endif
+
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+call plug#end()
+
+if has('nvim')
+    let s:cachedir = expand(stdpath('cache'))
+else
+    let s:cachedir = expand('~/.cache')
+endif
+
+"only for vim
+if !has('nvim')
+    filetype plugin indent on
+    syntax on
+    set encoding=utf-8
+    set backspace=indent,eol,start
+    set dir=$HOME/.vimtmp
+    "Completion mode setting
+    set wildmenu
+    set wildmode=full
+
+    set undodir=$HOME/.vimtmp
+    set incsearch
+    set hlsearch
+
+    " Toggle Menu and Toolbar
+    " @see http://liyanrui.is-programmer.com/articles/1791/gvim-menu-and-toolbar-toggle.html
+    set guioptions+=b
+    set guioptions-=m
+    set guioptions-=T
+    map <silent> <C-F12> :if &guioptions =~# 'T' <Bar>
+           \set guioptions-=T <Bar>
+           \set guioptions-=m <bar>
+       \else <Bar>
+           \set guioptions+=T <Bar>
+           \set guioptions+=m <Bar>
+       \endif<CR>
+endif
 
 "all tabs to expand to four spaces
 set tabstop=4
@@ -15,31 +78,22 @@ set softtabstop=4
 set expandtab
 
 "common setting
-set encoding=utf-8
-set scrolloff=3
+set scrolloff=2
 set mouse=a
 set cindent
 set visualbell
 set cursorline
 set ruler
-set backspace=indent,eol,start
 set number
 set relativenumber
-set dir=$HOME/.vimtmp
 set diffopt+=vertical
 set clipboard+=unnamed
-syntax on
 set title titlestring=%-0.110F%m%=\ \ buffer=%n\ %Y\ %q\ \ \ line=%l\ of\ %L titlelen=120
 
-"Completion mode setting
-set wildmenu
-set wildmode=full
 
 "Create file which contains undo information so you can undo previous actions even
 "after you close and reopen a file.
 set undofile
-set undodir=$HOME/.vimtmp
-"set undodir=$VIMRUNTIME/../tmp
 
 "leader key = ',' but not '\'
 let mapleader=","
@@ -48,9 +102,7 @@ let maplocalleader=","
 set ignorecase
 set smartcase
 set gdefault
-set incsearch
 set showmatch
-set hlsearch
 nnoremap <leader><space> :noh<cr>
 
 nnoremap <M-o> <tab>
@@ -61,13 +113,14 @@ vnoremap <tab> %
 "about wrap
 set wrap
 set linebreak
-set showbreak=∑
+set showbreak=☇
+"∑
 set textwidth=120
 set formatoptions=qrn1j
 set colorcolumn=80
 
 "invisible characters
-nmap <leader>li :set list!<CR>
+nnoremap <leader>li :set list!<CR>
 set listchars=tab:»-,eol:∫,extends:≥,precedes:≤,trail:.
 "highlight NonText guifg=#4a4a59
 "highlight SpecialKey guifg=#4a4a59
@@ -83,15 +136,15 @@ nnoremap <Leader>wl <C-W>l
 nnoremap <Leader>wh <C-W>h
 nnoremap <Leader>wk <C-W>k
 nnoremap <Leader>wj <C-W>j
-"substitute current word to someting in normal mode
-nmap <leader>zz :%s/<C-R>=expand("<cword>")<CR>/
-"substitute yanking word to someting in normal mode
-nmap <leader>zx :%s/<C-R>*/
-"substitut selected word to someting in visual mode
-vmap <leader>zz y:%s/<C-R>"/
+"substitute current word to something in normal mode
+nnoremap <leader>zz :%s/<C-R>=expand("<cword>")<CR>/
+"substitute yanking word to something in normal mode
+nnoremap <leader>zx :%s/<C-R>*/
+"substitut selected word to something in visual mode
+vnoremap <leader>zz y:%s/<C-R>"/
 "edit vimrc file
-nmap <leader>vs :source! $MYVIMRC
-nmap <leader>ve :e $MYVIMRC<CR>
+nnoremap <leader>vs :source! $MYVIMRC
+nnoremap <leader>ve :e $MYVIMRC<CR>
 "move cursor in insert mode
 noremap! <M-j> <Down>
 noremap! <M-k> <Up>
@@ -102,73 +155,43 @@ nnoremap <M-l> 5zl
 nnoremap <M-h> 5zh
 
 set fileencodings=utf-8,chinese,latin-1
-"just for gui
-if has("gui_running")
-   set guioptions+=b
-   source $VIMRUNTIME/delmenu.vim
-   source $VIMRUNTIME/menu.vim
-   "language messages zh_CN.utf-8
-   language messages en_US.utf-8
-   "colorscheme Lettuce
-   "colorscheme Colorer
-   "colorscheme solarized
-   "random color
-   let g:favorite_color_schemes = ['lettuce',
-                       \ 'github',
-                       \ 'colorer',
-                       \ 'solarized',
-                       \ 'distinguished',
-                       \ 'jellybeans',
-                       \ 'vividchalk',
-                       \ 'koehler',
-                       \ 'base16-railscasts',
-                       \ 'desert',
-                       \ 'desertEx',
-                       \ '0x7A69_dark',
-                       \ 'xoria256']
-   "if has("gui_gtk2")
-   "    :set guifont=Luxi\ Mono\ 12
-   "elseif has("x11")
-   "    " Also for GTK 1
-   "    :set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
-   if has("gui_win32")
-       "set fileencoding=chinese
-       "set guifont=monaco:h9:b
-       "set guifont=DejaVu_Sans_Mono:h14
-       "set guifont=consolas:h12
-       "set guifont=Consolas:h12
-       "set guifont=Courier_New:h12:b
-       "set gfw=幼圆:h12:cGB2312
-       "set gfw=YaHei:h15
-       "set gfw=KaiTi:h18
-       "set gfw=FangSong:h14
-       set gfw=YouYuan:h15
-       "set gfw=WenQuanYi_Zen_Hei_Mono_Medium:h14
-       let g:favorite_gui_fonts = ['Monaco:h14', 'DejaVu_Sans_Mono:h14']
-   else
-       "set guifont=DejaVu\ Sans\ Mono\ 12
-       "set guifont=monaco\ 16
-       set gfw=YouYuan\ 16
-       let g:favorite_gui_fonts = ['DejaVu\ Sans\ Mono\ 14', 'Monaco\ 14']
-       set fileencoding=utf-8
-   endif
+
+let g:favorite_color_schemes = ['lettuce',
+	       \ 'github',
+	       \ 'colorer',
+	       \ 'solarized',
+	       \ 'distinguished',
+	       \ 'jellybeans',
+	       \ 'vividchalk',
+	       \ 'koehler',
+	       \ 'base16-railscasts',
+	       \ 'desert',
+	       \ 'desertEx',
+	       \ '0x7A69_dark',
+	       \ 'xoria256']
+
+if has("win32")
+    "幼圆
+    set gfw=YouYuan:h15
+    let g:favorite_gui_fonts = ['Monaco:h14', 'DejaVu\ Sans\ Mono:h14']
 else
-   let g:favorite_color_schemes = [ 'evening', 'industry', 'torte', 'base16-ateliercave' ]
+    set gfw=YouYuan\ 16
+    let g:favorite_gui_fonts = ['DejaVu\ Sans\ Mono\ 14', 'Monaco\ 14']
 endif
 
 " copy file/short path/long path/ to clipboard
 " Convert slashes to backslashes for Windows.
 if has('win32')
- nmap <leader>yf :let @*=substitute(expand("%"), ".*[\\/]", "", "g")<CR>
- nmap <leader>ys :let @*=substitute(expand("%"), "/", "\\", "g")<CR>
- nmap <leader>yl :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+    nnoremap <leader>yf :let @*=substitute(expand("%"), ".*[\\/]", "", "g")<CR>
+    nnoremap <leader>ys :let @*=substitute(expand("%"), "/", "\\", "g")<CR>
+    nnoremap <leader>yl :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
 
- " This will copy the path in 8.3 short format, for DOS and Windows 9x
- nmap <leader>y8 :let @*=substitute(expand("%:p:8"), "/", "\\", "g")<CR>
+    " This will copy the path in 8.3 short format, for DOS and Windows 9x
+    nnoremap <leader>y8 :let @*=substitute(expand("%:p:8"), "/", "\\", "g")<CR>
 else
- nmap <leader>yf :let @*=substitute(expand("%"), ".*/", "", "g")<CR>
- nmap <leader>ys :let @*=expand("%")<CR>
- nmap <leader>yl :let @*=expand("%:p")<CR>
+    nnoremap <leader>yf :let @*=substitute(expand("%"), ".*/", "", "g")<CR>
+    nnoremap <leader>ys :let @*=expand("%")<CR>
+    nnoremap <leader>yl :let @*=expand("%:p")<CR>
 endif
 
 " Remove trailing whitespace when writing a buffer, but not for diff files.
@@ -182,7 +205,6 @@ function RemoveTrailingWhitespace()
        call cursor(b:curline, b:curcol)
    endif
 endfunction
-autocmd BufWritePre * call RemoveTrailingWhitespace()
 
 " Remove Read-Only attribute after save a file with 'w!'
 function! g:ChmodOnWrite()
@@ -195,105 +217,119 @@ function! g:ChmodOnWrite()
  endif
 endfunction
 
-autocmd BufWritePost * call g:ChmodOnWrite()
+augroup WriteHelp
+    autocmd!
+    autocmd BufWritePre * call RemoveTrailingWhitespace()
+    autocmd BufWritePost * call g:ChmodOnWrite()
+augroup END
 
-" Toggle Menu and Toolbar
-" @see http://liyanrui.is-programmer.com/articles/1791/gvim-menu-and-toolbar-toggle.html
-set guioptions-=m
-set guioptions-=T
-map <silent> <F12> :if &guioptions =~# 'T' <Bar>
-       \set guioptions-=T <Bar>
-       \set guioptions-=m <bar>
-   \else <Bar>
-       \set guioptions+=T <Bar>
-       \set guioptions+=m <Bar>
-   \endif<CR>
+augroup WorkingFileType
+    autocmd!
+    autocmd BufNewFile,BufRead *.tsf set filetype=vb
+    autocmd BufNewFile,BufRead *.tpr set filetype=xml
+    autocmd BufNewFile,BufRead makefile.g set filetype=make
+augroup END
 
-map <F11> <C-E>:sleep 3500m<CR>j<F11>
+nnoremap <F11> <C-E>:sleep 3500m<CR>j<F11>
 "*/# search selected text in visual mode
 vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
 "send output of previous global command to a new window
-nmap <F2>  :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR><CR>
-
-" F3 NERDTree Toggle
-map <F3> :NERDTreeToggle<CR>
-imap <F3> <ESC>:NERDTreeToggle<CR>
+nnoremap <F2>  :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR><CR>
 
 nnoremap <silent> <F4> :cw<CR>
-map <F7> :setlocal spell! spelllang=en_us spell?<CR>
-imap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
-"map <F5> :ls<CR>:e #
+nnoremap <F7> :setlocal spell! spelllang=en_us spell?<CR>
+inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 
-" F8 Tlist Toggle
-"nnoremap <silent> <F8> :TlistToggle<CR>
-"let Tlist_Show_One_File = 1
-"let Tlist_Exit_OnlyWindow = 1
-"let Tlist_Use_Right_Window = 1
+"plugin configure
 
-" F8 Tagbar Toggle
-nmap <F8> :TagbarToggle<CR>
+"deoplete
+let g:python3_host_prog='c:\python38\python.exe'
+let g:deoplete#enable_at_startup = 1
 
-"indent guide options
-"let g:indent_guides_start_level = 2
-"let g:indent_guides_guide_size = 1
-nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
+" F3 NERDTree Toggle
+nnoremap <F3> :NERDTreeToggle<CR>
+inoremap <F3> <ESC>:NERDTreeToggle<CR>
 
-"fswitch mapping
-nmap <silent> <Leader>ch :FSHere<cr>
+" gutentags configuration
+set tags=./.tags;,.tags
+" gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
+let g:gutentags_project_root = ['.git', '.root', '.svn', '.hg', '.project']
 
-"YouCompleteMe
-"nnoremap <leader>jd :YcmCompleter GoTo<CR>
-"nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
-"let g:ycm_global_ycm_extra_conf = 'c:\Users\e323819\.ycm_extra_conf.py'
-"Do not ask when starting vim
-"let g:ycm_confirm_extra_conf = 0
-"let g:syntastic_always_populate_loc_list = 1
+" 所生成的数据文件的名称
+let g:gutentags_ctags_tagfile = '.tags'
 
-let g:neocomplcache_enable_at_startup = 1
+" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+let g:gutentags_cache_dir = s:cachedir.'\tags'
 
-" The Silver Searcher
-if executable('ag')
-    let g:ackprg = 'ag --vimgrep --smart-case'
-    cnoreabbrev ag Ack
-    cnoreabbrev aG Ack
-    cnoreabbrev Ag Ack
-    cnoreabbrev AG Ack
-endif
+" 配置 ctags 的参数
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 
-nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
-nnoremap <leader>ll :call ToggleLocationList()<CR>
+" LeaderF configuration
+let g:Lf_ShortcutF = '<c-p>'
+" let g:Lf_ShortcutB = '<m-n>'
+noremap <leader>fm :LeaderfMru<cr>
+noremap <leader>ff :LeaderfFunction<cr>
+noremap <leader>fb :LeaderfBuffer<cr>
+noremap <leader>ft :LeaderfTag<cr>
+noremap <leader>fl :LeaderfLine<cr>
+"noremap <leader>fr <Plug>(LeaderfRgPrompt)
+"noremap <leader>fra <Plug>(LeaderfRgVisualLiteralBoundary)
+noremap <leader>fr :<C-U>Leaderf rg -e<Space>
+noremap <leader>fra :<C-U><C-R>=leaderf#Rg#startCmdline(0, 0, 0, 0)<CR>
+noremap <leader>frb :<C-U><C-R>=leaderf#Rg#startCmdline(0, 0, 0, 1)<CR>
+noremap <leader>frc :<C-U><C-R>=leaderf#Rg#startCmdline(0, 0, 1, 1)<CR>
+noremap <leader>frd :<C-U><C-R>=leaderf#Rg#startCmdline(0, 1, 1, 1)<CR>
+vnoremap <silent> <leader>fra :<C-U><C-R>=leaderf#Rg#startCmdline(2, 0, 0, 0)<CR>
+vnoremap <silent> <leader>frb :<C-U><C-R>=leaderf#Rg#startCmdline(2, 0, 0, 1)<CR>
+vnoremap <silent> <leader>frc :<C-U><C-R>=leaderf#Rg#startCmdline(2, 0, 1, 0)<CR>
+vnoremap <silent> <leader>frd :<C-U><C-R>=leaderf#Rg#startCmdline(2, 0, 1, 1)<CR>
 
-au BufNewFile,BufRead *.tsf set filetype=vb
-au BufNewFile,BufRead *.tpr set filetype=xml
-au BufNewFile,BufRead makefile.g set filetype=make
+let g:Lf_WorkingDirectoryMode = 'Ac'
+let g:Lf_WindowHeight = 0.30
+let g:Lf_CacheDirectory = s:cachedir
+let g:Lf_ShowRelativePath = 0
+let g:Lf_HideHelp = 1
+let g:Lf_StlColorscheme = 'powerline'
+let g:Lf_PreviewResult = {'Line':1}
 
+"ALE configuration
+let g:ale_linters={'cpp':['clang'],'c':['clang']}
+let g:ale_linters_explicit = 1
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_lint_delay = 500
+let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:airline#extensions#ale#enabled = 1
+
+let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+let g:ale_c_cppcheck_options = ''
+let g:ale_cpp_cppcheck_options = ''
+
+nnoremap <Leader>at :ALEToggle<CR>
+nnoremap <Leader>ad :ALEDetail<CR>
+
+"let g:ale_sign_error = "χ"
+"let g:ale_sign_warning = "!!"
+hi! clear SpellBad
+hi! clear SpellCap
+hi! clear SpellRare
+hi! SpellBad gui=undercurl guisp=LightRed
+hi! SpellCap gui=undercurl guisp=Orange
+hi! SpellRare gui=undercurl guisp=LightMagenta
+
+" EasyAlign
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" Alignment rule for C/C++
-if !exists('g:easy_align_delimiters')
-  let g:easy_align_delimiters = {}
-endif
-let g:easy_align_delimiters['d'] = {
-\ 'pattern': ' \ze\S\+\s*[;=]',
-\ 'left_margin': 0, 'right_margin': 0
-\ }
-
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
-
-"if exists("loaded_matchit")
-    "let b:match_ignorecase = 1 " (pascal is case-insensitive)
-
-    "let b:match_words = '\<\%(begin\|case\|record\|object\|try\)\>'
-    "let b:match_words .= ':\<^\s*\%(except\|finally\)\>:\<end\>'
-    "let b:match_words .= ',\<repeat\>:\<until\>'
-    "let b:match_words .= ',\<if\>:\<else\>'
-"endif
+"matchup
+nmap <silent> <Leader>% <plug>(matchup-hi-surround)
