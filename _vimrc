@@ -245,7 +245,11 @@ inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 "plugin configure
 
 "deoplete
-let g:python3_host_prog='c:\python38\python.exe'
+if has("win32")
+    let g:python3_host_prog='c:\python38\python.exe'
+else
+    let g:python3_host_prog='/bin/python3'
+endif
 let g:deoplete#enable_at_startup = 1
 
 " F3 NERDTree Toggle
