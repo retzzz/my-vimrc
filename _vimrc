@@ -22,6 +22,11 @@ Plug 'terryma/vim-expand-region'
 Plug 'jeetsukumaran/vim-indentwise'
 Plug 'pseewald/vim-anyfold'
 Plug 'will133/vim-dirdiff'
+Plug 'Shougo/echodoc.vim'
+
+if has('nvim')
+    Plug 'equalsraf/neovim-gui-shim'
+endif
 
 if has('nvim') || has('patch-8.0.902')
   Plug 'mhinz/vim-signify'
@@ -113,11 +118,11 @@ vnoremap <tab> %
 "about wrap
 set wrap
 set linebreak
-set showbreak=☇
-"∑
+set showbreak=∑
 set textwidth=120
 set formatoptions=qrn1j
 set colorcolumn=80
+set previewheight=6
 
 "invisible characters
 nnoremap <leader>li :set list!<CR>
@@ -156,7 +161,8 @@ nnoremap <M-h> 5zh
 
 set fileencodings=utf-8,chinese,latin-1
 
-let g:favorite_color_schemes = ['lettuce',
+let g:favorite_color_schemes = [
+           \ 'lettuce',
 	       \ 'github',
 	       \ 'colorer',
 	       \ 'solarized',
@@ -173,7 +179,17 @@ let g:favorite_color_schemes = ['lettuce',
 if has("win32")
     "幼圆
     set gfw=YouYuan:h15
-    let g:favorite_gui_fonts = ['Monaco:h14', 'DejaVu\ Sans\ Mono:h14']
+    let g:favorite_gui_fonts = [
+                \ 'Monaco:h14',
+                \ 'Fira\ Code:h14',
+                \ 'Cascadia\ Code:h14',
+                \ 'Ubuntu\ Mono:h16',
+                \ 'Inconsolata:h15',
+                \ 'Source\ Code\ Variable:h14',
+                \ 'DejaVu\ Sans\ Mono:h14',
+                \ 'Consolas:h15'
+                \]
+    "let g:favorite_gui_fonts = ['Monaco:h14', 'DejaVu\ Sans\ Mono:h14']
 else
     set gfw=YouYuan\ 16
     let g:favorite_gui_fonts = ['DejaVu\ Sans\ Mono\ 14', 'Monaco\ 14']
