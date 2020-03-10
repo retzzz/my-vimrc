@@ -1,4 +1,18 @@
-call plug#begin('~/AppData/Local/nvim/plugged')
+if has('nvim')
+    let s:cachedir = expand(stdpath('cache'))
+    let s:configdir = expand(stdpath('config'))
+else
+    "vim will share samve folder with nvim
+    if has('win32')
+        let s:cachedir = expand('~/AppData/Local/Temp/cache/nvim')
+        let s:configdir = expand('~/AppData/Local/nvim')
+    else
+        let s:cachedir = expand('~/.cache/nvim')
+        let s:configdir = expand('~/.config/nvim')
+    endif
+endif
+
+call plug#begin(s:configdir. '/plugged')
 Plug 'scrooloose/nerdTree'
 Plug 'FuDesign2008/randomTheme.vim'
 Plug 'flazz/vim-colorschemes'
@@ -23,6 +37,7 @@ Plug 'jeetsukumaran/vim-indentwise'
 Plug 'pseewald/vim-anyfold'
 Plug 'will133/vim-dirdiff'
 Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/neco-vim'
 
 if has('nvim')
     Plug 'equalsraf/neovim-gui-shim'
@@ -40,12 +55,6 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 call plug#end()
-
-if has('nvim')
-    let s:cachedir = expand(stdpath('cache'))
-else
-    let s:cachedir = expand('~/.cache')
-endif
 
 "only for vim
 if !has('nvim')
@@ -94,6 +103,7 @@ set relativenumber
 set diffopt+=vertical
 set clipboard+=unnamed
 set title titlestring=%-0.110F%m%=\ \ buffer=%n\ %Y\ %q\ \ \ line=%l\ of\ %L titlelen=120
+set autoread
 
 
 "Create file which contains undo information so you can undo previous actions even
@@ -233,10 +243,11 @@ function! g:ChmodOnWrite()
  endif
 endfunction
 
-augroup WriteHelp
+augroup WriteReadHelp
     autocmd!
     autocmd BufWritePre * call RemoveTrailingWhitespace()
     autocmd BufWritePost * call g:ChmodOnWrite()
+    autocmd FocusGained * :checktime
 augroup END
 
 augroup WorkingFileType
@@ -258,7 +269,9 @@ nnoremap <silent> <F4> :cw<CR>
 nnoremap <F7> :setlocal spell! spelllang=en_us spell?<CR>
 inoremap <F7> <C-o>:setlocal spell! spelllang=en_us spell?<CR>
 
+"=============================
 "plugin configure
+"=============================
 
 "deoplete
 if has("win32")
@@ -280,7 +293,7 @@ let g:gutentags_project_root = ['.git', '.root', '.svn', '.hg', '.project']
 " 所生成的数据文件的名称
 let g:gutentags_ctags_tagfile = '.tags'
 
-" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+" 将自动生成的 tags 文件全部放入 ~/.cache 目录中，避免污染工程目录
 let g:gutentags_cache_dir = s:cachedir.'\tags'
 
 " 配置 ctags 的参数
@@ -353,3 +366,12 @@ nmap ga <Plug>(EasyAlign)
 
 "matchup
 nmap <silent> <Leader>% <plug>(matchup-hi-surround)
+
+"echodoc
+let g:echodoc#enable_at_startup = 1
+if has("nvim")
+    let g:echodoc#type = 'virtual'
+else
+    set cmdheight=2
+endif
+
